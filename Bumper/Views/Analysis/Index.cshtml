@@ -1,0 +1,75 @@
+﻿@model Bumper.Models.FormAnalysis
+
+@{
+    ViewBag.Title = "Analysis";
+}
+
+<center><h1>Analyzer</h1></center><br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row container-slim">
+        <div class="col-lg-9">
+            <div class="form-group">
+                <select class="form-control" name="tag">
+                    @foreach (var item in ViewBag.Machines)
+                    {
+                        <option value="@item.tag">@item.tag (@item.environment)</option>
+                        }
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <button type="submit" role="button" class="btn btn-warning btn-block"><i class="fa fa-search"></i>&nbsp; Analyze</button>
+        </div>
+    </div>
+
+    <div class="row container-slim" id="plugin_box">
+        <div class="col-lg-12"><b>AWS Services</b></div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="secgroup"> Security Groups </label>
+        </div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="cloudwatch"> CloudWatch</label>
+        </div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="instancelog"> Instance Logs</label>
+        </div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="snapshot"> Snapshots</label>
+        </div>
+
+        <div class="col-lg-12"><b>AWS Services</b></div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="header"> Headers</label>
+        </div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="servicestatus"> Services Status</label>
+        </div>
+
+        <div class="col-lg-12"><b>AWS Services</b></div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="connections"> Unusual connections</label>
+        </div>
+
+        <div class="col-lg-3" data-toggle="buttons">
+            <label class="btn btn-plugin active btn-block"><input type="checkbox" checked autocomplete="off" name="publishedkeys"> Private Keys Published</label>
+        </div>
+
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

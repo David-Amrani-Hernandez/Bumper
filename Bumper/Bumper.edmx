@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Bumper.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="incidence">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="evidence" Type="ntext" Nullable="false" />
+          <Property Name="description" Type="ntext" />
+          <Property Name="vulnerability" Type="ntext" Nullable="false" />
+          <Property Name="id_machine" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="machine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="provider" Type="ntext" />
+          <Property Name="instance" Type="ntext" Nullable="false" />
+          <Property Name="tag" Type="ntext" Nullable="false" />
+          <Property Name="domain" Type="ntext" />
+          <Property Name="publicips" Type="ntext" />
+          <Property Name="privateips" Type="ntext" />
+          <Property Name="environment" Type="ntext" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_machine_incidence">
+          <End Role="machine" Type="Self.machine" Multiplicity="1" />
+          <End Role="incidence" Type="Self.incidence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="machine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="incidence">
+              <PropertyRef Name="id_machine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BumperStoreContainer">
+          <EntitySet Name="incidence" EntityType="Self.incidence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="machine" EntityType="Self.machine" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_machine_incidence" Association="Self.FK_machine_incidence">
+            <End Role="machine" EntitySet="machine" />
+            <End Role="incidence" EntitySet="incidence" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Bumper" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="incidence">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="evidence" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="vulnerability" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_machine" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="machine" Relationship="Self.FK_machine_incidence" FromRole="incidence" ToRole="machine" />
+        </EntityType>
+        <EntityType Name="machine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="provider" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="instance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="domain" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="publicips" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="privateips" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="environment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="incidence" Relationship="Self.FK_machine_incidence" FromRole="machine" ToRole="incidence" />
+        </EntityType>
+        <Association Name="FK_machine_incidence">
+          <End Role="machine" Type="Self.machine" Multiplicity="1" />
+          <End Role="incidence" Type="Self.incidence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="machine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="incidence">
+              <PropertyRef Name="id_machine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BumperEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="incidence" EntityType="Self.incidence" />
+          <EntitySet Name="machine" EntityType="Self.machine" />
+          <AssociationSet Name="FK_machine_incidence" Association="Self.FK_machine_incidence">
+            <End Role="machine" EntitySet="machine" />
+            <End Role="incidence" EntitySet="incidence" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BumperStoreContainer" CdmEntityContainer="BumperEntities">
+          <EntitySetMapping Name="incidence">
+            <EntityTypeMapping TypeName="Bumper.incidence">
+              <MappingFragment StoreEntitySet="incidence">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="evidence" ColumnName="evidence" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="vulnerability" ColumnName="vulnerability" />
+                <ScalarProperty Name="id_machine" ColumnName="id_machine" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="machine">
+            <EntityTypeMapping TypeName="Bumper.machine">
+              <MappingFragment StoreEntitySet="machine">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="provider" ColumnName="provider" />
+                <ScalarProperty Name="instance" ColumnName="instance" />
+                <ScalarProperty Name="tag" ColumnName="tag" />
+                <ScalarProperty Name="domain" ColumnName="domain" />
+                <ScalarProperty Name="publicips" ColumnName="publicips" />
+                <ScalarProperty Name="privateips" ColumnName="privateips" />
+                <ScalarProperty Name="environment" ColumnName="environment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

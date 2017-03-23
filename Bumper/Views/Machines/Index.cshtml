@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Bumper.machine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Inventory<small> List of available machines</small></h2><br />
+
+<p><a href="@Url.Action("Create")" class="btn btn-primary btn-xs">Add machine</a></p>
+<table class="table">
+    <tr>
+        <th>Provider</th>
+        <th>Tag-name</th>
+        <th>Instance Id</th>
+        <th>Pub.IP</th>
+        <th>Environment</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.provider)</td>
+        <td>@Html.DisplayFor(modelItem => item.tag)</td>
+        <td>@Html.DisplayFor(modelItem => item.instance)</td>
+        <td>@Html.DisplayFor(modelItem => item.publicips)</td>
+        <td>@Html.DisplayFor(modelItem => item.environment) </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>
