@@ -122,5 +122,25 @@ namespace Bumper.Functions
             return incidences;
         }
 
+        public static List<incidence> AnalyzeSnapshot(string instanceid, string environment)
+        {
+            List<incidence> incidences = new List<incidence>();
+
+            Instance instance = AWS.getInstanceInfo(instanceid);
+            string volumeId = instance.BlockDeviceMappings[0].Ebs.VolumeId;
+            if (!AWS.getSnapshotfromVolumeId("aaaa"))
+            {
+                incidence incid = new incidence();
+                incid.description = String.Format("There is no snapshot for instance {0}.", instanceid);
+                incid.evidence = String.Format("No snapshots asociated to volume {0}", volumeId);
+                incid.vulnerability = "MissingSnapshot";
+                incid.id_machine = db.machine.First(x => x.instance == instanceid).id;
+                incid.machine = null;
+                incidences.Add(incid);
+            }
+
+            return incidences;
+        }
+
     }
 }

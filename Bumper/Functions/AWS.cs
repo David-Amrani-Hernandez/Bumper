@@ -40,5 +40,25 @@ namespace Bumper.Functions
 
         }
 
+        public static bool getSnapshotfromVolumeId(string volumeId)
+        {
+            var ec2Client = new AmazonEC2Client();
+
+            var dsRequest = new DescribeVolumesRequest();
+            var dsResponse = ec2Client.DescribeVolumes(dsRequest);
+            List<Volume> mySnap = dsResponse.Volumes.Where(x => x.VolumeId == volumeId).ToList();
+
+            if (mySnap.Count() == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+
+        }
+
     }
 }

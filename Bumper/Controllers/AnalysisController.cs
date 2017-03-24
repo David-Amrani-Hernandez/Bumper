@@ -35,6 +35,9 @@ namespace Bumper.Functions
                 if (analysis.header.ToLower().Equals("on"))
                 { incidences.AddRange(Plugins.AnalyzeHeaders(analysis.instance, environmentType)); }
 
+                if (analysis.header.ToLower().Equals("on"))
+                { incidences.AddRange(Plugins.AnalyzeSnapshot(analysis.instance, environmentType)); }
+
                 db.incidence.AddRange(incidences);
                 db.SaveChanges();
             }
