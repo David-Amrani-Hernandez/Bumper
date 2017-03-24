@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bumper.Functions;
+using Bumper.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +15,27 @@ namespace Bumper.Controllers
         // GET: Disaster
         public ActionResult Index()
         {
+            ViewBag.Machines = db.machine.ToList();
+            return View();
+        }
+
+        // POST: Analysis
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(FormDisaster disaster)
+        {
+            string environmentType = db.machine.First(x => x.instance == disaster.instance).environment;
+            if (ModelState.IsValid)
+            {
+                List<incidence> incidences = new List<incidence>();
+
+                if (disaster.quarantine.ToLower().Equals("on"))
+                { incidences.AddRange(Plugins.Quarantine(disaster.instance, environmentType)); }
+
+
+                db.incidence.AddRange(incidences);
+                db.SaveChanges();
+            }
             ViewBag.Machines = db.machine.ToList();
             return View();
         }
