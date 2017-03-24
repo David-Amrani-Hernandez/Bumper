@@ -25,9 +25,9 @@
         <td>@Html.DisplayFor(modelItem => item.publicips)</td>
         <td>@Html.DisplayFor(modelItem => item.environment) </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            <a href="/Machines/Edit/@item.id"><i class="fa fa-pencil" aria-hidden="true"></i></a> |
+            <a href="/Machines/Details/@item.id"><i class="fa fa-info" aria-hidden="true"></i></a> |
+            <a href="/Machines/Delete/@item.id"><i class="fa fa-trash-o" aria-hidden="true"></i>
         </td>
     </tr>
 }
