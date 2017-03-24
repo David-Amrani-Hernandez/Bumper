@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+
 
 namespace Bumper.Functions
 {
@@ -13,7 +15,8 @@ namespace Bumper.Functions
 
         public ActionResult Index()
         {
-            ViewBag.Incidences = db.incidence.ToList();
+            List<incidence> incs = db.incidence.Include(p => p.machine).ToList();
+            ViewBag.Incidences = incs;
             return View();
         }
 

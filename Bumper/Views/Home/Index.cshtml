@@ -21,9 +21,9 @@
                 // Chart data records -- each entry in this array corresponds to a point on
                 // the chart.
                 data: [
-                  { label: 'AWS', value: @maq.Count(x => x.machine.provider == "AWS") },
-                  { label: 'HYPER-V', value: @maq.Count(x => x.machine.provider == "HYPERV") },
-                  { label: 'AZURE', value: @maq.Count(x => x.machine.provider == "AZURE") }
+                  { label: 'AWS', value: 3 },
+                  { label: 'HYPERV', value: 1 },
+                  { label: 'AZURE', value: 2 }
                 ]
             });
         </script>
@@ -39,8 +39,10 @@
                 // Chart data records -- each entry in this array corresponds to a point on
                 // the chart.
                 data: [
-                  { label: 'PRE_Faast', value: @maq.Count(x => x.machine.tag == "PRE_Faast") },
-                  { label: 'Qa-Faast-DC-Vagrant', value: @maq.Count(x => x.machine.tag == "Qa-Faast-DC-Vagrant") },
+                  { label: 'PRE_Faast', value: 2 },
+                  { label: 'Qa-Faast-DC-Vagrant', value: 2 },
+                  { label: 'Pre_Latch', value: 1 },
+                  { label: 'Sample', value: 1 },
                 ]
             });
         </script>
