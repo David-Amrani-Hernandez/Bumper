@@ -9,6 +9,9 @@ namespace Bumper.Functions
 {
     public class Plugins
     {
+        /* ------------------------------------- *
+         *                ANALYSIS
+         * ------------------------------------- */
 
         public static BumperEntities db = new BumperEntities();
 
@@ -142,5 +145,18 @@ namespace Bumper.Functions
             return incidences;
         }
 
+
+        /* ------------------------------------- *
+         *                DISASTER
+         * ------------------------------------- */
+
+        public static List<incidence> Quarantine(string instanceid, string environment)
+        {
+            List<incidence> incidences = new List<incidence>();
+
+            AWS.changeSecurityGroupToQuarantine(instanceid);
+
+            return incidences;
+        }
     }
 }
