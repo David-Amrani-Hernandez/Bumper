@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Bumper.incidence>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Incidences<small> List of available incidences</small></h2><br />
+
+<p><a href="@Url.Action("Create")" class="btn btn-primary btn-xs">Add incidence</a></p>
+
+
+@foreach (var item in Model)
+{   <div class="container">
+        <div class="alert @if (item.machine.environment.Equals("production")) { @Html.Raw("alert-danger"); } else { @Html.Raw("alert-warning"); }" role="alert">
+            <h4><i class="fa fa-exclamation" aria-hidden="true"></i> <b> @item.vulnerability</b>- @item.machine.tag</h4>
+            <p style="padding-bottom:10px;"><i class="fa fa-file-text" aria-hidden="true"></i> @item.description</p>
+            <button type="button" class="btn @if (item.machine.environment.Equals("production")) { @Html.Raw("btn-danger"); } else { @Html.Raw("btn-warning"); }" data-toggle="collapse" data-target="#@item.id"><i class="fa fa-search" aria-hidden="true"></i> &nbsp; Evidence</button>
+            <div id="@item.id" class="collapse">
+                <p style="padding-top:10px;">@item.evidence</p>
+            </div>
+        </div>
+    </div>
+        }
+
