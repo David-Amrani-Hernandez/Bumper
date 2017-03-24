@@ -19,7 +19,7 @@ namespace Bumper
         public string description { get; set; }
         public string vulnerability { get; set; }
         public int id_machine { get; set; }
-    
+
         public virtual machine machine { get; set; }
     }
 }

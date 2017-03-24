@@ -27,14 +27,16 @@ namespace Bumper.Functions
             string environmentType = db.machine.First(x => x.instance == analysis.instance).environment;
             if (ModelState.IsValid)
             {
+                List<incidence> incidences = new List<incidence>();
+
                 if (analysis.secgroup.ToLower().Equals("on"))
-                {
-                    Plugins.AnalyzeSecurityGroup(analysis.instance, environmentType);
-                }
+                { incidences.AddRange(Plugins.AnalyzeSecurityGroup(analysis.instance, environmentType)); }
+
                 if (analysis.header.ToLower().Equals("on"))
-                {
-                    Plugins.AnalyzeHeaders(analysis.instance, environmentType);
-                }
+                { incidences.AddRange(Plugins.AnalyzeHeaders(analysis.instance, environmentType)); }
+
+                db.incidence.AddRange(incidences);
+                db.SaveChanges();
             }
             ViewBag.Machines = db.machine.ToList();
             return View();

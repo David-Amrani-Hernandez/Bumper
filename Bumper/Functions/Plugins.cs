@@ -35,9 +35,9 @@ namespace Bumper.Functions
                             incidence incid = new incidence();
                             incid.evidence = String.Format("Security Group:{0} > IP:{1} FROM:{2} TO:{3}", secGroupName.GroupName, ruleip, rule.FromPort, rule.ToPort);
                             incid.description = String.Format("Too broad permissions on production environment. Ports should be filtered to public addresses.");
-                            incid.vulnerability = "SecurityGroup";
+                            incid.vulnerability = "WeakSecurityGroup";
                             incid.id_machine = db.machine.First(x => x.instance == instanceid).id;
-                            incid.machine = db.machine.First(x => x.instance == instanceid);
+                            incid.machine = null;
                             incidences.Add(incid);
                         }
                     }
@@ -54,8 +54,8 @@ namespace Bumper.Functions
                             incidence incid = new incidence();
                             incid.evidence = String.Format("Security Group:{0} > IP:{1} FROM:{2} TO:{3}", secGroupName.GroupName, ruleip, rule.FromPort, rule.ToPort);
                             incid.description = String.Format("Too broad permissions on debug environment. Ports should be filtered to public addresses.");
-                            incid.vulnerability = "SecurityGroup";
-                            incid.machine = db.machine.First(x => x.instance == instanceid);
+                            incid.vulnerability = "WeakSecurityGroup";
+                            incid.machine = null;
                             incid.id_machine = db.machine.First(x => x.instance == instanceid).id;
                             incidences.Add(incid);
                         }
@@ -75,14 +75,47 @@ namespace Bumper.Functions
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            if (response.Headers["Content-Security-Policy"].Count() > 0)
+            if (response.Headers["Content-Security-Policy"] == null)
             {
+                incidence incid = new incidence();
+                incid.description = String.Format("Missing header Content-Security-Policy.");
+                incid.evidence = String.Format("{0}", response.Headers);
+                incid.vulnerability = "MissingCSPHeader";
+                incid.id_machine = db.machine.First(x => x.instance == instanceid).id;
+                incid.machine = null;
+                incidences.Add(incid);
+            }
+            else
+            {
+                List<string> weakHeaders = new List<string>();
+                weakHeaders.Add("script-src: *;");
+                weakHeaders.Add("default-src: *;");
+                weakHeaders.Add("frame-src: *;");
 
+                foreach(string header in weakHeaders)
+                {
+                    if (response.Headers["Content-Security-Policy"].Contains(header))
+                    {
+                        incidence incid = new incidence();
+                        incid.description = String.Format("Too broad condition for Content-Security-Policy header.");
+                        incid.evidence = String.Format("{0}", response.Headers["Content-Security-Policy"]);
+                        incid.vulnerability = "TooBroadCSPHeader";
+                        incid.id_machine = db.machine.First(x => x.instance == instanceid).id;
+                        incid.machine = null;
+                        incidences.Add(incid);
+                    }
+                }
             }
 
-            if (response.Headers["X-Frame-Options"].Count() > 0)
+            if (response.Headers["X-Frame-Options"] == null && environment.Equals("production"))
             {
-
+                incidence incid = new incidence();
+                incid.description = String.Format("Missing header X-Frame-Option.");
+                incid.evidence = String.Format("{0}", response.Headers);
+                incid.vulnerability = "MissingXFOHeader";
+                incid.id_machine = db.machine.First(x => x.instance == instanceid).id;
+                incid.machine = null;
+                incidences.Add(incid);
             }
 
 
