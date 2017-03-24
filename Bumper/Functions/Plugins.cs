@@ -158,5 +158,23 @@ namespace Bumper.Functions
 
             return incidences;
         }
+
+        public static List<incidence> CreateSnapshot(string instanceid, string environment)
+        {
+            List<incidence> incidences = new List<incidence>();
+
+            if (AWS.CreateSnapshot(instanceid))
+            {
+                incidence incid = new incidence();
+                incid.description = String.Format("Snapshot from volume of instance {0} has been created", instanceid);
+                incid.evidence = String.Format("AWS.EC2 Snapshot: BUMPER_SNAPSHOT_DISASTER");
+                incid.vulnerability = "DisasterSnapshotCreated";
+                incid.id_machine = db.machine.First(x => x.instance == instanceid).id;
+                incid.machine = null;
+                incidences.Add(incid);
+            }
+
+            return incidences;
+        }
     }
 }

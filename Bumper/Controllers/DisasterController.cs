@@ -29,8 +29,11 @@ namespace Bumper.Controllers
             {
                 List<incidence> incidences = new List<incidence>();
 
-                if (disaster.quarantine.ToLower().Equals("on"))
+                if (!String.IsNullOrEmpty(disaster.quarantine))
                 { incidences.AddRange(Plugins.Quarantine(disaster.instance, environmentType)); }
+
+                if (!String.IsNullOrEmpty(disaster.snapshot))
+                { incidences.AddRange(Plugins.CreateSnapshot(disaster.instance, environmentType)); }
 
 
                 db.incidence.AddRange(incidences);

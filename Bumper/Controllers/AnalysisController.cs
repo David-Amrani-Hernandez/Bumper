@@ -29,13 +29,13 @@ namespace Bumper.Functions
             {
                 List<incidence> incidences = new List<incidence>();
 
-                if (analysis.secgroup.ToLower().Equals("on"))
+                if (String.IsNullOrEmpty(analysis.secgroup))
                 { incidences.AddRange(Plugins.AnalyzeSecurityGroup(analysis.instance, environmentType)); }
 
-                if (analysis.header.ToLower().Equals("on"))
+                if (String.IsNullOrEmpty(analysis.header))
                 { incidences.AddRange(Plugins.AnalyzeHeaders(analysis.instance, environmentType)); }
 
-                if (analysis.header.ToLower().Equals("on"))
+                if (String.IsNullOrEmpty(analysis.snapshot))
                 { incidences.AddRange(Plugins.AnalyzeSnapshot(analysis.instance, environmentType)); }
 
                 db.incidence.AddRange(incidences);
