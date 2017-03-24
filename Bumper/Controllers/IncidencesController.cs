@@ -39,7 +39,8 @@ namespace Bumper.Controllers
         // GET: Incidences/Create
         public ActionResult Create()
         {
-            ViewBag.id_machine = new SelectList(db.machine, "id", "provider");
+
+            ViewBag.id_machine = new SelectList(db.machine, "id", "tag");
             return View();
         }
 
