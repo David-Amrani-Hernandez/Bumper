@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.provider, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select class="form-control" name="tag">
+                <select class="form-control" name="provider">
                     <option value="AWS">AWS</option>
                     <option value="HYPERV">HYPERV</option>
                     <option value="AZURE">AZURE</option>
@@ -70,7 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.environment, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select class="form-control" name="tag">
+                <select class="form-control" name="environment">
                     <option value="production">production</option>
                     <option value="preproduction">preproduction</option>
                     <option value="qa">qa</option>

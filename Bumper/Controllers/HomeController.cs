@@ -8,23 +8,14 @@ namespace Bumper.Functions
 {
     public class HomeController : Controller
     {
+
+        BumperEntities db = new BumperEntities();
+
         public ActionResult Index()
         {
+            ViewBag.Incidences = db.incidence.ToList();
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
