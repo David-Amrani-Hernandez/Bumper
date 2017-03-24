@@ -216,6 +216,7 @@
     <Compile Include="machine.cs">
       <DependentUpon>Bumper.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FormDisaster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

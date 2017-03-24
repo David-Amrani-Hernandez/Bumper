@@ -24,7 +24,7 @@ namespace Bumper.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(FormDisaster disaster)
         {
-            string environmentType = db.machine.First(x => x.instance == disaster.instance).environment;
+            string environmentType = db.machine.Where(x => x.instance == disaster.instance).First().environment;
             if (ModelState.IsValid)
             {
                 List<incidence> incidences = new List<incidence>();
