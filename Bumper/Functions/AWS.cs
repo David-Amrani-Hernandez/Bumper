@@ -59,32 +59,64 @@ namespace Bumper.Functions
             }
         }
 
-        public static void changeSecurityGroupToQuarantine(string instanceId)
+        public static bool changeSecurityGroupToQuarantine(string instanceId)
         {
-            var ec2Client = new AmazonEC2Client();
+            try
+            {
+                var ec2Client = new AmazonEC2Client();
 
-            Instance instancem = getInstanceInfo(instanceId);
-            SecurityGroup sg = getSecurityGroup(instancem.SecurityGroups[0].GroupName);
+                Instance instancem = getInstanceInfo(instanceId);
+                SecurityGroup sg = getSecurityGroup(instancem.SecurityGroups[0].GroupName);
 
-            // Revoke ALL inbound rules
-            RevokeSecurityGroupIngressRequest dsreq = new RevokeSecurityGroupIngressRequest();
-            dsreq.GroupId = sg.GroupId;
-            dsreq.IpPermissions = sg.IpPermissions;
-            var dsResponse = ec2Client.RevokeSecurityGroupIngress(dsreq);
+                // Revoke ALL inbound rules
+                RevokeSecurityGroupIngressRequest dsreq = new RevokeSecurityGroupIngressRequest();
+                dsreq.GroupId = sg.GroupId;
+                dsreq.IpPermissions = sg.IpPermissions;
+                var dsResponse = ec2Client.RevokeSecurityGroupIngress(dsreq);
 
-            //Authorized rule to myip
-            IpPermission quarantineIp = new IpPermission();
-            quarantineIp.FromPort = 22;
-            quarantineIp.ToPort = 22;
-            quarantineIp.IpProtocol = "tcp";
-            quarantineIp.IpRanges = new List<string> { "2.139.155.201/32", "2.139.155.203/32" };
-            quarantineIp.Ipv6Ranges = new List<Ipv6Range>();
-            quarantineIp.PrefixListIds = new List<PrefixListId>();
-            quarantineIp.UserIdGroupPairs = new List<UserIdGroupPair>();
-            AuthorizeSecurityGroupIngressRequest dsnreq = new AuthorizeSecurityGroupIngressRequest();
-            dsnreq.GroupId = sg.GroupId;
-            dsnreq.IpPermissions = new List<IpPermission>{ quarantineIp};
-            var dsnResponse = ec2Client.AuthorizeSecurityGroupIngress(dsnreq);
+                //Authorized rule to myip
+                IpPermission quarantineIp = new IpPermission();
+                quarantineIp.FromPort = 22;
+                quarantineIp.ToPort = 22;
+                quarantineIp.IpProtocol = "tcp";
+                quarantineIp.IpRanges = new List<string> { "2.139.155.201/32", "2.139.155.203/32" };
+                quarantineIp.Ipv6Ranges = new List<Ipv6Range>();
+                quarantineIp.PrefixListIds = new List<PrefixListId>();
+                quarantineIp.UserIdGroupPairs = new List<UserIdGroupPair>();
+                AuthorizeSecurityGroupIngressRequest dsnreq = new AuthorizeSecurityGroupIngressRequest();
+                dsnreq.GroupId = sg.GroupId;
+                dsnreq.IpPermissions = new List<IpPermission> { quarantineIp };
+                var dsnResponse = ec2Client.AuthorizeSecurityGroupIngress(dsnreq);
+
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public static bool CreateSnapshot(string instanceId)
+        {
+            try
+            {
+                var ec2Client = new AmazonEC2Client();
+
+                string instanceVolumeId = getInstanceInfo(instanceId).BlockDeviceMappings[0].Ebs.VolumeId;
+
+                var nsreq = new CreateSnapshotRequest();
+                nsreq.VolumeId = instanceVolumeId;
+                nsreq.Description = String.Format("Bumper_SNAPSHOT_{0}", instanceId);
+                var nsresp = ec2Client.CreateSnapshot(nsreq);
+                string snapid = nsresp.Snapshot.SnapshotId;
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
 
         }
     }
