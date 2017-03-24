@@ -9,6 +9,10 @@ namespace Bumper.Functions
 {
     public class AWS
     {
+        /* ------------------------------------- *
+         *                ANALYSIS
+         * ------------------------------------- */
+
         public static Instance getInstanceInfo(string instanceid)
         {
             var ec2Client = new AmazonEC2Client();
