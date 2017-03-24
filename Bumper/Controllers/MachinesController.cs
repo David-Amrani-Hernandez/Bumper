@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bumper;
 
-namespace Bumper.Controllers
+namespace Bumper.Functions
 {
     public class MachinesController : Controller
     {

@@ -1,11 +1,12 @@
-﻿using Bumper.Models;
+﻿using Amazon.EC2.Model;
+using Bumper.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Bumper.Controllers
+namespace Bumper.Functions
 {
     public class AnalysisController : Controller
     {
@@ -23,12 +24,20 @@ namespace Bumper.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(FormAnalysis analysis)
         {
+            string environmentType = db.machine.First(x => x.instance == analysis.instance).environment;
             if (ModelState.IsValid)
             {
-                // ANALYZER !!!
+                if (analysis.secgroup.ToLower().Equals("on"))
+                {
+                    Plugins.AnalyzeSecurityGroup(analysis.instance, environmentType);
+                }
+                if (analysis.header.ToLower().Equals("on"))
+                {
+                    Plugins.AnalyzeHeaders(analysis.instance, environmentType);
+                }
             }
             ViewBag.Machines = db.machine.ToList();
-            return View(db.incidence.ToList());
+            return View();
         }
 
         // GET: Analysis/Details/5

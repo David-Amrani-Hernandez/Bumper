@@ -2,7 +2,7 @@
 {
     public class FormAnalysis
     {
-        public string tag { get; set; }
+        public string instance { get; set; }
 
         public string secgroup { get; set; }
         public string cloudwatch { get; set; }

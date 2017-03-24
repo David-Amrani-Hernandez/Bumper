@@ -44,8 +44,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWS.Logger.AspNetCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWS.Logger.AspNetCore.1.0.0\lib\netstandard1.3\AWS.Logger.AspNetCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWS.Logger.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWS.Logger.Core.1.0.0\lib\net45\AWS.Logger.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.CloudWatchLogs, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.CloudWatchLogs.3.3.2\lib\net45\AWSSDK.CloudWatchLogs.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.Core.3.3.10.2\lib\net45\AWSSDK.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.EC2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.EC2.3.3.11.3\lib\net45\AWSSDK.EC2.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
@@ -65,7 +81,20 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
@@ -159,6 +188,8 @@
       <DependentUpon>Bumper.edmx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AnalysisController.cs" />
+    <Compile Include="Functions\AWS.cs" />
+    <Compile Include="Functions\Plugins.cs" />
     <Compile Include="Models\FormAnalysis.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MachinesController.cs" />
@@ -254,6 +285,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.CloudWatchLogs.3.3.2\analyzers\dotnet\cs\AWSSDK.CloudWatchLogs.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.EC2.3.3.11.3\analyzers\dotnet\cs\AWSSDK.EC2.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.5.10\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <PropertyGroup>

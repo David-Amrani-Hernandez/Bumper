@@ -14,11 +14,12 @@
     <div class="row container-slim">
         <div class="col-lg-9">
             <div class="form-group">
-                <select class="form-control" name="tag">
+                
+                <select class="form-control" name="instance">
                     @foreach (var item in ViewBag.Machines)
                     {
-                        <option value="@item.tag">@item.tag (@item.environment)</option>
-                        }
+                        <option value="@item.instance">@item.tag (@item.environment)</option>
+                    }
                 </select>
             </div>
         </div>
